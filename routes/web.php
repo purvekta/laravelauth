@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\http\middleware\AdminAccess;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/admin/users', function () {
+  return view('admin.users.index');
+});
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -28,13 +34,15 @@ Auth::routes();
 //// admin access group////
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
   //  Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+  
   Route::get('/dashboard', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('dashboard');
+  
 });
-
 
 
 ///////////////User Access Group////////////////////////
 Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'User', 'middleware' => ['auth', 'user']], function () {
   //  Route::get('dashboard', 'DashboardController@index')->name('dashboard');
   Route::get('/dashboard', [App\Http\Controllers\User\DashBoardController::class, 'index'])->name('dashboard');
+
 });
