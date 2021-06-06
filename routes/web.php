@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/users', function () {
-  return view('admin.users.index');
-});
+// Route::get('/admin/users', function () {
+//   return view('admin.users.index');
+// });
 
 
 Auth::routes();
@@ -32,10 +32,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 //// admin access group////
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
   //  Route::get('dashboard', 'DashboardController@index')->name('dashboard');
   
   Route::get('/dashboard', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('dashboard');
+  Route::resource('user', App\Http\Controllers\Admin\UserController::class);
   
 });
 

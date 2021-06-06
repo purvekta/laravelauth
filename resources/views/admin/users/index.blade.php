@@ -44,44 +44,55 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Data Table</strong>
+                                <strong class="card-title">Users Data</strong>
                             </div>
-                            <div class="card-body">
-                                <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>user</th>
-                                            <th>Email</th>
-                                            <th>Created at</th>
-											<th>updated at</th>
-											<th>Action</th>
-                                        </tr>                                            
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>$320,800</td>
-											<td>Edinburgh</td>
-                                            <td>
-											 <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#viewModal">
-                            <i class ="fa fa-eye"></i>
-                        </button>
-						<button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#editModal">
-                             <i class ="fa fa-pencil"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger mb-1" data-toggle="modal" data-target="#deleteModal">
-                              <i class ="fa fa-trash-o"></i>
-                        </button>
+                            <div>
 
-											</td>
-											                                        </tr>
-                                       
-                                    </tbody>
-                                </table>
+                                <div class="card-body">
+                                    <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Name</th>
+                                                <th>Role</th>
+                                                <th>userId</th>
+                                                <th>Email</th>
+                                                <th>Created at</th>
+                                                <th>updated at</th>
+                                                <th>Action</th>
+                                            </tr>                                            
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $key=> $user)
+                                            <tr>
+                                                <td>{{$key+1}}</td>
+                                                <td>{{"$user->name"}}</td>
+                                                <td>{{$user->role->name}}</td>
+                                                <td>{{"$user->user_id"}}</td>
+                                                <td>{{"$user->email"}}</td>
+                                                <td>{{"$user->created_at"}}</td>
+                                                <td>{{"$user->updated_at"}}</td>
+                                                 <td>
+                                                 <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#viewModal-{{$user->id}}">
+                                <i class ="fa fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#editModal-{{$user->id}}">
+                                 <i class ="fa fa-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger mb-1" data-toggle="modal" data-target="#deleteModal-{{$user->id}}">
+                                  <i class ="fa fa-trash-o"></i>
+                            </button>
+    
+                                                </td>
+                                                                                        </tr>
+                                                                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    
+
                             </div>
+                            
                         </div>
                     </div>
 
@@ -92,121 +103,163 @@
         </div><!-- .content -->
 		<div class="animated">
 
-                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" data-backdrop="static" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="mediumModalLabel">view</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    There are three species of zebras: the plains zebra, the mountain zebra and the Grévy's zebra. The plains zebra
-                                    and the mountain zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus
-                                    Dolichohippus. The latter resembles an ass, to which it is closely related, while the former two are more
-                                    horse-like. All three belong to the genus Equus, along with other living equids.
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+@foreach ($users as $user)
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" data-backdrop="static"  aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="mediumModalLabel">Edit User</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
+<div class="modal fade" id="viewModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" data-backdrop="static" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">view</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div class="card-body card-block">
+                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">Username</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->name}}</p>
+                                </div>
                             </div>
-                            <div class="card">
-                                                   
-                                                    <div class="card-body card-block">
-                                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label class=" form-control-label">Username</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <p class="form-control-static">User user</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label class=" form-control-label">Userid</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <p class="form-control-static">User1234</p>
-                                                                </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">Role</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->role->name}}</p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">userid</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->user_id}}</p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">Email</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->email}}</p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">created_At</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->created_at}}</p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">updated_at</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->updated_at}}</p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label class=" form-control-label">about</label></div>
+                                <div class="col-12 col-md-9">
+                                    <p class="form-control-static">{{$user->about}}</p>
+                                </div>
+                            </div>
+                          
+                        
+                                
+                                                                                       </form>
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" data-backdrop="static"  aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="card">
+                                   
+                                    <div class="card-body card-block">
+                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                            <div class="row form-group">
+                                                <div class="col col-md-3"><label class=" form-control-label">Name</label></div>
+                                                <div class="col-12 col-md-9">
+                                                    <p class="form-control-static">{{$user->name}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col col-md-3"><label class=" form-control-label">Userid</label></div>
+                                                <div class="col-12 col-md-9">
+                                                    <p class="form-control-static">{{$user->user_id}}</p>
+                                                </div>
+                                            </div>
+                                            
+                                          
+                                         
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3"><label class=" form-control-label">Role</label></div>
+                                                    <div class="col col-md-9">
+                                                        <div class="form-check">
+                                                            @foreach ($roles as $role)
+                                                            <div class="radio">
+                                                                <label for="radio1" class="form-check-label ">
+                                                                    <input type="radio" id="{{$role}}" name="radios" value="{{$role->id}}" class="form-check-input"{{$user->role->id == $role->id ?'checked': " "}}>{{$role->name}}
+                                                                </label>
                                                             </div>
                                                             
-                                                          
-                                                         
-                                                                <div class="row form-group">
-                                                                    <div class="col col-md-3"><label class=" form-control-label">Role</label></div>
-                                                                    <div class="col col-md-9">
-                                                                        <div class="form-check">
-                                                                            <div class="radio">
-                                                                                <label for="radio1" class="form-check-label ">
-                                                                                    <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Option 1
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="radio">
-                                                                                <label for="radio2" class="form-check-label ">
-                                                                                    <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Option 2
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="radio">
-                                                                                <label for="radio3" class="form-check-label ">
-                                                                                    <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
                                                                 
-                                                                                                                       </form>
-                                                    </div>
-                                                    <div class="card-footer">
-                                                        <button type="submit" class="btn btn-primary btn-sm">
-                                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                                        </button>
-                                                        
+                                                            @endforeach
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
-                           
-                        </div>
-                    </div>
-                </div>
-  
+                                                                                                       </form>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-dot-circle-o"></i> Submit
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                                
+           
+        </div>
+    </div>
+</div>
 
-              
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" data-backdrop="static" aria-hidden="true" style="display: none;">
-                    <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticModalLabel">Delete</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    This is a static modal, backdrop click will not close it.
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+
+<div class="modal fade" id="deleteModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" data-backdrop="static" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This is a static modal, backdrop click will not close it.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endforeach
 
 
             </div>
