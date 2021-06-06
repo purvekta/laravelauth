@@ -77,7 +77,7 @@ class UserController extends Controller
     {
         $user= User::findOrFail($id);
         if(Auth::user()->id==$id){
-            toastr()->warning('Not Authorized change role ');
+           toastr()->warning('Not Authorized change role ');
 return back();
        
         }
@@ -86,7 +86,7 @@ return back();
         $user->role_id = $request->role;
         
         $user->save();
-        toastr()->success('Role is changed!');
+       toastr()->success('Role is changed!');
 return back();
     }
 
@@ -105,7 +105,7 @@ return back();
             return back();   
         }
         $user->delete();
-        toastr()->success('user deleted ');
+       toastr()->success('user deleted ');
         return back();
     }
 }

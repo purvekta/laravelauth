@@ -2,11 +2,14 @@
 @push('header')
 <link rel="stylesheet" href="{{asset('backend/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('backend/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}">
-
+@toastr_css
 @endpush
 
 @section('content')
 <body>
+    @jquery
+    @toastr_js
+    @toastr_render
     <!-- Left Panel -->
 
     <!-- Left Panel -->
@@ -187,7 +190,9 @@
             <div class="card">
                                    
                                     <div class="card-body card-block">
-                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="{{route('admin.user.update',$user->id)}}" method="post" id="editUser-{{$user->id}}" enctype="multipart/form-data" class="form-horizontal">
+                                            @csrf
+                                            @method('PUT')
                                             <div class="row form-group">
                                                 <div class="col col-md-3"><label class=" form-control-label">Name</label></div>
                                                 <div class="col-12 col-md-9">
@@ -210,7 +215,7 @@
                                                             @foreach ($roles as $role)
                                                             <div class="radio">
                                                                 <label for="radio1" class="form-check-label ">
-                                                                    <input type="radio" id="{{$role}}" name="radios" value="{{$role->id}}" class="form-check-input"{{$user->role->id == $role->id ?'checked': " "}}>{{$role->name}}
+                                                                    <input type="radio" id="{{$role}}" name="role" value="{{$role->id}}" class="form-check-input"{{$user->role->id == $role->id ?'checked': " "}}>{{$role->name}}
                                                                 </label>
                                                             </div>
                                                             
@@ -223,7 +228,8 @@
                                                                                                        </form>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
+                                        <button type="submit" class="btn btn-primary btn-sm"                                      onclick="event.preventDefault();
+                                        document.getElementById('editUser-{{$user->id}}').submit();">
                                             <i class="fa fa-dot-circle-o"></i> Submit
                                         </button>
                                         
@@ -248,12 +254,17 @@
             </div>
             <div class="modal-body">
                 <p>
-                    This is a static modal, backdrop click will not close it.
+                    User will be deleted!!!
                 </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <button type="button" class="btn btn-primary" onclick="event.preventDefault();
+                document.getElementById('deleteUser-{{$user->id}}').submit();">Confirm</button>
+                <form action="{{route('admin.user.destroy',$user->id)}}" style="display: none" id="deleteUser-{{$user->id}}"method="post">
+                @csrf
+            @method('DELETE')
+        </form>
             </div>
         </div>
     </div>
